@@ -21,6 +21,7 @@ index.html
 <ul id="messages" style="width:100%;border-bottom: 1px solid #dedede">
 
 </ul>
+<span id="tip"></span><br>
 <label for="">我是：</label><input type="text" id="register">
 <button onclick="register()">注册</button>
 <br><br>
@@ -43,6 +44,12 @@ index.html
     socket.on('connectNum', function (num) {
         console.log("连接数：" + num);
         document.getElementById('connectNum').innerHTML = num;
+    });
+    socket.on('tip',function (data) {
+        console.log(data);
+        var tip = document.getElementById('tip');
+        tip.innerHTML = "";
+        tip.innerHTML= data;
     });
     socket.on('users', function (users) {
         var newOp = null;
@@ -87,36 +94,53 @@ app.listen(8084);
 
 var hashName = {};
 
-function handler (req, res) {
+function handler(req, res) {
     fs.readFile(__dirname + '/index.html',
         function (err, data) {
             res.writeHead(200);
             res.end(data);
         });
 }
+
 function broadcast() {
-    io.sockets.emit("connectNum",Object.keys(hashName).length);
-    io.sockets.emit("users",hashName);
+    io.sockets.emit("connectNum", Object.keys(hashName).length);
+    io.sockets.emit("users", hashName);
 }
-io.on('connection', function(socket){
+
+//提供私有socket
+function privateSocket(toId) {
+    return( _.findWhere(io.sockets.sockets, {id: toId}));
+
+}
+
+//返回给当前客户端提示
+function tipToClient(socket,msg) {
+    privateSocket(socket.id).emit('tip', msg);
+}
+
+io.on('connection', function (socket) {
     console.log('connection succed!');
     broadcast();
-    socket.on('setName',function (data) {
+    socket.on('setName', function (data) {
         var name = data;
+        if (hashName[name]) {//若已经存在则重新注册
+            tipToClient(socket,"tip: " + name + " 已注册！");
+            return;
+        }
+        tipToClient(socket,"tip: " + name + " 注册成功");
         hashName[name] = socket.id;
         console.log(hashName);
         broadcast();
     });
-    socket.on('sayTo',function (data) {
+    socket.on('sayTo', function (data) {
         var toName = data.to;
         var toId;
         console.log(toName);
-        if(toId = hashName[toName]){
-            var toSocket = _.findWhere(io.sockets.sockets,{id:toId});
-            toSocket.emit('message',data);
+        if (toId = hashName[toName]) {
+            privateSocket(toId).emit('message', data);
         }
-    })
-    socket.on('disconnect', function(){
+    });
+    socket.on('disconnect', function () {
         console.log('connection is disconnect!');
     });
 });

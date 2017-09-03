@@ -1,5 +1,5 @@
 - git clone  https://github.com/umlink/socket.io_private_chat.git
-- cd socket.io_private_chat.git
+- cd socket.io_private_chat
 - npm install
 - node serve / npm start
 - 打开客户端 http://localhost:8084

@@ -119,3 +119,5 @@ io.on('connection', function(socket){
     });
 });
 ~~~
+效果：
+![image](http://note.youdao.com/favicon.ico)

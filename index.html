@@ -11,6 +11,7 @@
 <ul id="messages" style="width:100%;border-bottom: 1px solid #dedede">
 
 </ul>
+<span id="tip"></span><br>
 <label for="">我是：</label><input type="text" id="register">
 <button onclick="register()">注册</button>
 <br><br>
@@ -33,6 +34,12 @@
     socket.on('connectNum', function (num) {
         console.log("连接数：" + num);
         document.getElementById('connectNum').innerHTML = num;
+    });
+    socket.on('tip',function (data) {
+        console.log(data);
+        var tip = document.getElementById('tip');
+        tip.innerHTML = "";
+        tip.innerHTML= data;
     });
     socket.on('users', function (users) {
         var newOp = null;

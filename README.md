@@ -1,9 +1,11 @@
-- git clone  https://github.com/umlink/socket.io_private_chat.git
+## 1.启动
+- git clone  https://github.com/umlink/socket.io_private_chat.git
 - cd socket.io_private_chat
 - npm install
 - node serve / npm start
 - 打开客户端 http://localhost:8084
 - 注册后可给指定client发送消息
+## 2.code
 index.html
 ~~~
 <!DOCTYPE html>
@@ -119,6 +121,9 @@ io.on('connection', function(socket){
     });
 });
 ~~~
-效果：
+## 3.效果：
+### A client
 ![image](https://github.com/umlink/socket.io_private_chat/blob/master/images/A.jpeg)
+
+### B client
 ![image](https://github.com/umlink/socket.io_private_chat/blob/master/images/B.jpeg)

@@ -23,7 +23,7 @@
 <button id="send" onclick="send()">发送</button>
 </body>
 <script>
-    var socket = io.connect('127.0.0.1:8084');
+    var socket = io.connect('106.15.229.168:8080');
     var messages = document.getElementById("messages");
     var selectTO = document.getElementById("to");
     socket.on('message', function (data) {

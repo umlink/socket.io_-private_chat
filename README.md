@@ -3,7 +3,7 @@
 - cd socket.io_private_chat
 - npm install
 - node serve / npm start
-- 打开客户端 http://localhost:8084
+- 打开客户端 http://localhost:8080
 - 注册后可给指定client发送消息
 ## 2.code
 index.html

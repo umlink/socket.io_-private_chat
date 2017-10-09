@@ -2,7 +2,7 @@ var app = require('http').createServer(handler);
 var io = require('socket.io')(app);
 var fs = require('fs');
 var _ = require('underscore');
-app.listen(8084);
+app.listen(8080);
 
 var hashName = {};
 
